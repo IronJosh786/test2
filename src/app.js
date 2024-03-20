@@ -19,9 +19,9 @@ app.use(cookieParser()); // for secure CRUD operations from server to browser
 // importing routes
 import userRouter from "./routes/user.route.js";
 import transactionRouter from "./routes/transaction.route.js";
-
+import healthRouter from "./routes/health.route.js";
 // declaring routes
 app.use("/api/v2/users", userRouter);
 app.use("/api/v2/transactions", transactionRouter);
-
+app.use("/api/v2/health", healthRouter);
 export { app };
