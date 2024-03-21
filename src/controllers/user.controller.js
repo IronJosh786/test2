@@ -118,6 +118,8 @@ const loginUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
+        domain: "https://money-transfer-two.vercel.app/",
+        sameSite: "none",
     };
 
     return res
@@ -149,6 +151,8 @@ const logoutUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
+        domain: "https://money-transfer-two.vercel.app/",
+        sameSite: "none",
     };
 
     return res
@@ -188,6 +192,8 @@ const regenerateToken = asyncHandler(async (req, res) => {
         const options = {
             httpOnly: true,
             secure: true,
+            domain: "https://money-transfer-two.vercel.app/",
+            sameSite: "none",
         };
 
         return res

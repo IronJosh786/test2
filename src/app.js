@@ -11,6 +11,7 @@ app.use(
     })
 );
 
+app.set("trust proxy", 1);
 app.use(express.json({ limit: "16kb" })); // from json
 app.use(express.urlencoded({ extended: true, limit: "16kb" })); // from url
 app.use(express.static("public")); // static files like pdf, image to store in temp
