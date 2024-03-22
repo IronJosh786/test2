@@ -122,19 +122,15 @@ const loginUser = asyncHandler(async (req, res) => {
         domain: "https://money-transfer-two.vercel.app",
     };
 
-    return (
-        res
-            .status(200)
-            // .cookie("accessToken", accessToken, options)
-            // .cookie("refreshToken", refreshToken, options)
-            .json(
-                new ApiResponse(
-                    200,
-                    { user: loggedInUser, accessToken, refreshToken },
-                    "User logged in successfully"
-                )
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                { user: loggedInUser, accessToken, refreshToken },
+                "User logged in successfully"
             )
-    );
+        );
 });
 
 // const logoutUser = asyncHandler(async (req, res) => {
@@ -178,7 +174,6 @@ const logoutUser = asyncHandler(async (req, res) => {
     );
 
     sessionStorage.removeItem("accessToken");
-    sessionStorage.removeItem("refreshToken");
 
     return res
         .status(200)
@@ -219,19 +214,15 @@ const regenerateToken = asyncHandler(async (req, res) => {
             domain: "https://money-transfer-two.vercel.app",
         };
 
-        return (
-            res
-                .status(200)
-                // .cookie("accessToken", accessToken, options)
-                // .cookie("refreshToken", refreshToken, options)
-                .json(
-                    new ApiResponse(
-                        200,
-                        { accessToken, refreshToken },
-                        "Tokens regenerated"
-                    )
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    { accessToken, refreshToken },
+                    "Tokens regenerated"
                 )
-        );
+            );
     } catch (error) {
         throw new ApiError(400, "Error while regenerating tokens");
     }
