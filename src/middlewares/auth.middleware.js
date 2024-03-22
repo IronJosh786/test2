@@ -6,8 +6,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 export const verifyJWT = asyncHandler(async (req, _, next) => {
     try {
         const token =
-            req.session?.accessToken ||
-            req.header("Authorization")?.replace("Bearer ", "");
+            req.session?.accessToken || req.headers.authorization.split(" ")[1];
 
         if (!token) {
             throw new ApiError(401, "Cannot find token");
