@@ -118,8 +118,8 @@ const loginUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
-        // sameSite: "none",
-        // domain: "https://money-transfer-two.vercel.app",
+        sameSite: "none",
+        domain: "https://money-transfer-two.vercel.app",
     };
 
     return res
@@ -151,8 +151,8 @@ const logoutUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly: true,
         secure: true,
-        // sameSite: "none",
-        // domain: "https://money-transfer-two.vercel.app",
+        sameSite: "none",
+        domain: "https://money-transfer-two.vercel.app",
     };
 
     return res
@@ -192,8 +192,8 @@ const regenerateToken = asyncHandler(async (req, res) => {
         const options = {
             httpOnly: true,
             secure: true,
-            // sameSite: "none",
-            // domain: "https://money-transfer-two.vercel.app",
+            sameSite: "none",
+            domain: "https://money-transfer-two.vercel.app",
         };
 
         return res
