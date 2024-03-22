@@ -122,18 +122,47 @@ const loginUser = asyncHandler(async (req, res) => {
         domain: "https://money-transfer-two.vercel.app",
     };
 
-    return res
-        .status(200)
-        .cookie("accessToken", accessToken, options)
-        .cookie("refreshToken", refreshToken, options)
-        .json(
-            new ApiResponse(
-                200,
-                { user: loggedInUser, accessToken, refreshToken },
-                "User logged in successfully"
+    return (
+        res
+            .status(200)
+            // .cookie("accessToken", accessToken, options)
+            // .cookie("refreshToken", refreshToken, options)
+            .json(
+                new ApiResponse(
+                    200,
+                    { user: loggedInUser, accessToken, refreshToken },
+                    "User logged in successfully"
+                )
             )
-        );
+    );
 });
+
+// const logoutUser = asyncHandler(async (req, res) => {
+//     await MoneyUser.findByIdAndUpdate(
+//         req.user?._id,
+//         {
+//             $unset: {
+//                 refreshToken: 1,
+//             },
+//         },
+//         {
+//             new: true,
+//         }
+//     );
+
+//     const options = {
+//         httpOnly: true,
+//         secure: true,
+//         sameSite: "none",
+//         domain: "https://money-transfer-two.vercel.app",
+//     };
+
+//     return res
+//         .status(200)
+//         .clearCookie("accessToken", options)
+//         .clearCookie("refreshToken", options)
+//         .json(new ApiResponse(200, {}, "User logged out successfully"));
+// });
 
 const logoutUser = asyncHandler(async (req, res) => {
     await MoneyUser.findByIdAndUpdate(
@@ -148,17 +177,11 @@ const logoutUser = asyncHandler(async (req, res) => {
         }
     );
 
-    const options = {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        domain: "https://money-transfer-two.vercel.app",
-    };
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("refreshToken");
 
     return res
         .status(200)
-        .clearCookie("accessToken", options)
-        .clearCookie("refreshToken", options)
         .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
 
@@ -196,17 +219,19 @@ const regenerateToken = asyncHandler(async (req, res) => {
             domain: "https://money-transfer-two.vercel.app",
         };
 
-        return res
-            .status(200)
-            .cookie("accessToken", accessToken, options)
-            .cookie("refreshToken", refreshToken, options)
-            .json(
-                new ApiResponse(
-                    200,
-                    { accessToken, refreshToken },
-                    "Tokens regenerated"
+        return (
+            res
+                .status(200)
+                // .cookie("accessToken", accessToken, options)
+                // .cookie("refreshToken", refreshToken, options)
+                .json(
+                    new ApiResponse(
+                        200,
+                        { accessToken, refreshToken },
+                        "Tokens regenerated"
+                    )
                 )
-            );
+        );
     } catch (error) {
         throw new ApiError(400, "Error while regenerating tokens");
     }
