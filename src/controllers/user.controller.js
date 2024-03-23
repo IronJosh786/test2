@@ -133,33 +133,6 @@ const loginUser = asyncHandler(async (req, res) => {
         );
 });
 
-// const logoutUser = asyncHandler(async (req, res) => {
-//     await MoneyUser.findByIdAndUpdate(
-//         req.user?._id,
-//         {
-//             $unset: {
-//                 refreshToken: 1,
-//             },
-//         },
-//         {
-//             new: true,
-//         }
-//     );
-
-//     const options = {
-//         httpOnly: true,
-//         secure: true,
-//         sameSite: "none",
-//         domain: "https://money-transfer-two.vercel.app",
-//     };
-
-//     return res
-//         .status(200)
-//         .clearCookie("accessToken", options)
-//         .clearCookie("refreshToken", options)
-//         .json(new ApiResponse(200, {}, "User logged out successfully"));
-// });
-
 const logoutUser = asyncHandler(async (req, res) => {
     await MoneyUser.findByIdAndUpdate(
         req.user?._id,
@@ -172,8 +145,6 @@ const logoutUser = asyncHandler(async (req, res) => {
             new: true,
         }
     );
-
-    sessionStorage.removeItem("accessToken");
 
     return res
         .status(200)
