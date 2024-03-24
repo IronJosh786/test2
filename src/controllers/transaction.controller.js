@@ -26,11 +26,12 @@ const newTransaction = asyncHandler(async (req, res) => {
         }).session(session);
 
         if (!sender || !receiver) {
-            throw new Error("Sender or Receiver not found");
+            throw new Error(404, "Sender or Receiver not found");
         }
 
         if (sender.balance < amount) {
-            throw new Error("Insufficient funds");
+            // throw new Error("Insufficient funds");
+            return res.status(400).json({ message: "Insufficient funds" });
         }
 
         // Update sender's balance
