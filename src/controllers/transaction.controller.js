@@ -31,7 +31,7 @@ const newTransaction = asyncHandler(async (req, res) => {
 
         if (sender.balance < amount) {
             // throw new Error("Insufficient funds");
-            return res.status(400).json({ message: "Insufficient funds" });
+            throw new Error("insufficent funds");
         }
 
         // Update sender's balance
