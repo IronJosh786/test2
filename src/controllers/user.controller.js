@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { ApiError, errorHandler } from "../utils/apiError.js";
+import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
@@ -84,19 +84,11 @@ const loginUser = asyncHandler(async (req, res, next) => {
         (email && email.trim() === "") ||
         (username && username.trim() === "")
     ) {
-        // throw new ApiError(400, "Invalid Username/Email");
-        // return res
-        //     .status(400)
-        //     .json(new ApiResponse(400, {}, "invalid username/email"));
-        next(errorHandler(400, "invalid username/email"));
+        throw new ApiError(400, "Invalid Username/Email");
     }
 
     if (!password || password.trim() === "") {
-        // throw new ApiError(400, "Password is required");
-        // return res
-        //     .status(400)
-        //     .json(new ApiResponse(400, {}, "password is required"));
-        next(errorHandler(400, "password is required"));
+        throw new ApiError(400, "Password is required");
     }
 
     const user = await MoneyUser.findOne({
@@ -104,18 +96,12 @@ const loginUser = asyncHandler(async (req, res, next) => {
     });
 
     if (!user) {
-        // throw new ApiError(400, "User does not exists");
-        return res
-            .status(400)
-            .json(new ApiResponse(400, {}, "user does not exist"));
+        throw new ApiError(400, "User does not exists");
     }
 
     const isPasswordCorrect = await user.isPasswordCorrect(password);
     if (!isPasswordCorrect) {
-        // throw new ApiError(400, "Incorrect password");
-        return res
-            .status(400)
-            .json(new ApiResponse(400, {}, "incorrect password"));
+        throw new ApiError(400, "Incorrect password");
     }
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
