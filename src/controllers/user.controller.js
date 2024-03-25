@@ -84,11 +84,17 @@ const loginUser = asyncHandler(async (req, res) => {
         (email && email.trim() === "") ||
         (username && username.trim() === "")
     ) {
-        throw new ApiError(400, "Invalid Username/Email");
+        // throw new ApiError(400, "Invalid Username/Email");
+        return res
+            .status(400)
+            .json(new ApiResponse(400, {}, "invalid username/email"));
     }
 
     if (!password || password.trim() === "") {
-        throw new ApiError(400, "Password is required");
+        // throw new ApiError(400, "Password is required");
+        return res
+            .status(400)
+            .json(new ApiResponse(400, {}, "password is required"));
     }
 
     const user = await MoneyUser.findOne({
@@ -96,12 +102,18 @@ const loginUser = asyncHandler(async (req, res) => {
     });
 
     if (!user) {
-        throw new ApiError(400, "User does not exists");
+        // throw new ApiError(400, "User does not exists");
+        return res
+            .status(400)
+            .json(new ApiResponse(400, {}, "user does not exist"));
     }
 
     const isPasswordCorrect = await user.isPasswordCorrect(password);
     if (!isPasswordCorrect) {
-        throw new ApiError(400, "Incorrect password");
+        // throw new ApiError(400, "Incorrect password");
+        return res
+            .status(400)
+            .json(new ApiResponse(400, {}, "incorrect password"));
     }
 
     const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
