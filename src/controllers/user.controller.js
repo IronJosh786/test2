@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { ApiError } from "../utils/apiError.js";
+import { ApiError, errorHandler } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
@@ -76,7 +76,7 @@ const registerUser = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, newUser, "User registered successfully"));
 });
 
-const loginUser = asyncHandler(async (req, res) => {
+const loginUser = asyncHandler(async (req, res, next) => {
     const { email, username, password } = req.body;
 
     if (
@@ -85,16 +85,18 @@ const loginUser = asyncHandler(async (req, res) => {
         (username && username.trim() === "")
     ) {
         // throw new ApiError(400, "Invalid Username/Email");
-        return res
-            .status(400)
-            .json(new ApiResponse(400, {}, "invalid username/email"));
+        // return res
+        //     .status(400)
+        //     .json(new ApiResponse(400, {}, "invalid username/email"));
+        next(errorHandler(400, "invalid username/email"));
     }
 
     if (!password || password.trim() === "") {
         // throw new ApiError(400, "Password is required");
-        return res
-            .status(400)
-            .json(new ApiResponse(400, {}, "password is required"));
+        // return res
+        //     .status(400)
+        //     .json(new ApiResponse(400, {}, "password is required"));
+        next(errorHandler(400, "password is required"));
     }
 
     const user = await MoneyUser.findOne({
